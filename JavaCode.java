@@ -15,10 +15,16 @@ import java.io.File;
 public class App {
     public static void main(String[] args) throws Exception {
         System.out.println("App Running...");
-        CreateImage("Content Creater", "Update : 07");
+        CreateImage("Content Creater",
+                "Update : 07",
+                new String[] {
+                        "Version updated to 0.8",
+                        "Added Creating Image Method for developers",
+                        "Added to our GitHub Page",
+                });
     }
 
-    public static void CreateImage(String imgTitle, String UpdateTXT) {
+    public static void CreateImage(String imgTitle, String UpdateTXT, String[] newFeatures) {
         try {
             BufferedImage img = new BufferedImage(3000, 3000, BufferedImage.TYPE_INT_ARGB);
             Graphics2D graph = img.createGraphics();
@@ -41,10 +47,8 @@ public class App {
             // #region Add Project Title
             graph.setColor(new Color(255, 255, 255));
             graph.setFont(new Font("Arial", Font.PLAIN, GetPerc(img.getWidth(), 8)));
-
-            int pnTitleWidth = GetStringWidth(graph, imgTitle);
             graph.drawString(imgTitle,
-                    (img.getWidth() / 2) - (pnTitleWidth / 2),
+                    (img.getWidth() / 2) - (GetStringWidth(graph, imgTitle) / 2),
                     GetPerc(img.getHeight(), 9));
             // #endregion
 
@@ -53,19 +57,60 @@ public class App {
             // enough transparency : 220
             graph.setColor(new Color(200, 200, 225, 255));
             graph.fillRoundRect(
-                    GetPerc(img.getWidth(), 12),
+                    GetPerc(img.getWidth(), 3),
                     GetPerc(img.getHeight(), 12),
-                    img.getWidth() - (GetPerc(img.getWidth(), 12) * 2),
-                    img.getHeight() - (GetPerc(img.getHeight(), 12) * 2),
+                    img.getWidth() - (GetPerc(img.getWidth(), 3) * 2),
+                    img.getHeight() - (GetPerc(img.getHeight(), 10) * 2),
                     90, 90);
 
-            // Update No
+            // Update TXT
             graph.setColor(new Color(0, 0, 0));
-            graph.setFont(new Font("Consolas", Font.PLAIN, GetPerc(img.getWidth(), 4)));
+            graph.setFont(new Font("Consolas", Font.PLAIN, GetPerc(img.getWidth(), 2)));
             graph.drawString(UpdateTXT,
-                    GetPerc(img.getWidth(), 12) + GetStringWidth(graph, UpdateTXT) / 2,
-                    img.getHeight() - GetPerc(img.getHeight(), 12) - GetStringWidth(graph, UpdateTXT) / 2);
+                    GetPerc(img.getWidth(), 1) + GetStringWidth(graph, UpdateTXT) / 2,
+                    img.getHeight() - GetPerc(img.getHeight(), 6) - GetStringWidth(graph, UpdateTXT) / 2);
             // #endregion
+
+            // #region New Features Title
+
+            graph.setColor(new Color(0, 0, 0));
+            graph.setFont(new Font("Consolas", Font.PLAIN, GetPerc(img.getWidth(), 5)));
+            graph.drawString("New Features",
+                    (img.getWidth() / 2) - (GetStringWidth(graph, "New Features") / 2),
+                    GetPerc(img.getHeight(), 18));
+
+            // under-line new features title
+            graph.setColor(new Color(0, 0, 0));
+            graph.setStroke(new BasicStroke(10));
+            graph.drawLine(
+                    GetPerc(img.getWidth(), 8),
+                    GetPerc(img.getHeight(), 20),
+                    img.getWidth() - GetPerc(img.getWidth(), 8),
+                    GetPerc(img.getHeight(), 20));
+
+            // #endregion
+
+            // #region Features Lister
+            
+            graph.setFont(new Font("Lucida Console",Font.PLAIN,GetPerc(img.getWidth(), 3)));
+            int topDifference=GetPerc(img.getHeight(), 25);
+            for (String features : newFeatures) {
+                graph.setColor(new Color(103, 84, 255));
+                graph.drawOval(
+                    GetPerc(img.getWidth(), 7),
+                     topDifference-(GetPerc(img.getWidth(), 3)/2),
+                      50,
+                      50);
+
+                graph.setColor(new Color(0, 0, 0));
+                graph.drawString(features, 
+                GetPerc(img.getWidth(), 10), 
+                topDifference);
+                topDifference+=GetPerc(GetPerc(img.getWidth(), 3),120);
+            }
+            // #endregion
+
+
 
             File outpt = new File("SaveIMG.png");
             ImageIO.write(img, "png", outpt);
