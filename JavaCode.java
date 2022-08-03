@@ -1,43 +1,45 @@
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Stroke;
 import java.awt.BasicStroke;
-import java.awt.Paint;
-import java.awt.Rectangle;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
-import javax.swing.plaf.FontUIResource;
 
 import java.io.File;
 
 public class App {
     public static void main(String[] args) throws Exception {
         System.out.println("App Running...");
-        CreateImage("Content Creater",
-                "Update : 07",
+
+        CreateImage(
+                new Color(129, 123, 173),
+                new Color(45, 45, 45),
+                "Content Creater",
+                "Startup : 01",
                 new String[] {
                         "Version updated to 0.8",
-                        "Added Creating Image Method for developers",
                         "Added to our GitHub Page",
+                        "Created Next steps about this application",
+                        "Started to remaking app for Mobile devices",
                 });
     }
 
-    public static void CreateImage(String imgTitle, String UpdateTXT, String[] newFeatures) {
+    public static void CreateImage(Color TopLeftColor, Color BottomRightColor, String imgTitle, String UpdateTXT,
+            String[] newFeatures) {
         try {
             BufferedImage img = new BufferedImage(3000, 3000, BufferedImage.TYPE_INT_ARGB);
             Graphics2D graph = img.createGraphics();
 
             // #region Background Triangles
-            // Gray Bottom Right
-            graph.setColor(new Color(45, 45, 45));
+            // Gray Bottom Right - default : (45, 45, 45)
+            graph.setColor(BottomRightColor);
             for (int i = 0; i < img.getWidth(); i++) {
                 graph.drawLine(img.getWidth() - i, i, img.getWidth(), i);
             }
 
-            // Light Purple Top Left
-            graph.setColor(new Color(129, 123, 173));
+            // Light Purple Top Left - default : (129, 123, 173)
+            graph.setColor(TopLeftColor);
 
             for (int i = 0; i < img.getWidth(); i++) {
                 graph.drawLine(0, i, img.getWidth() - i, i);
@@ -91,29 +93,26 @@ public class App {
             // #endregion
 
             // #region Features Lister
-            
-            graph.setFont(new Font("Lucida Console",Font.PLAIN,GetPerc(img.getWidth(), 3)));
-            int topDifference=GetPerc(img.getHeight(), 25);
+
+            graph.setFont(new Font("Lucida Console", Font.PLAIN, GetPerc(img.getWidth(), 3)));
+            int topDifference = GetPerc(img.getHeight(), 25);
             for (String features : newFeatures) {
                 graph.setColor(new Color(103, 84, 255));
                 graph.drawOval(
-                    GetPerc(img.getWidth(), 7),
-                     topDifference-(GetPerc(img.getWidth(), 3)/2),
-                      50,
-                      50);
+                        GetPerc(img.getWidth(), 7),
+                        topDifference - (GetPerc(img.getWidth(), 3) / 2),
+                        50,
+                        50);
 
                 graph.setColor(new Color(0, 0, 0));
-                graph.drawString(features, 
-                GetPerc(img.getWidth(), 10), 
-                topDifference);
-                topDifference+=GetPerc(GetPerc(img.getWidth(), 3),120);
+                graph.drawString(features,
+                        GetPerc(img.getWidth(), 10),
+                        topDifference);
+                topDifference += GetPerc(GetPerc(img.getWidth(), 3), 120);
             }
             // #endregion
-
-
-
-            File outpt = new File("SaveIMG.png");
-            ImageIO.write(img, "png", outpt);
+            File outptFile=new File(imgTitle.replace(" ", "")+".png");
+            ImageIO.write(img, "png", outptFile);
             System.out.println("Image Saved");
         } catch (Exception e) {
             System.out.println(e);
