@@ -50,21 +50,70 @@ public class App {
   graph.drawString(imgTitle,(img.getWidth() / 2) - (GetStringWidth(graph, imgTitle) / 2),
   GetPerc(img.getHeight(), 9));
 // #endregion
-      
-      
-      
-      
-      
+// #region MIDDLE BOX
+// enough transparency : 220
+    p1.setColor(new Color(200, 200, 225, 255));
+    graph.fillRoundRect(
+        GetPerc(img.getWidth(), 3),
+        GetPerc(img.getHeight(), 12),
+        img.getWidth() - (GetPerc(img.getWidth(), 3) * 2),
+        img.getHeight() - (GetPerc(img.getHeight(), 10) * 2),
+        90, 90);
+
+// Update TXT
+    p1.setColor(new Color(0, 0, 0));
+    p1.setFont(new Font("Consolas", Font.PLAIN, GetPerc(img.getWidth(), 2)));
+    graph.drawString(UpdateTXT,
+        GetPerc(img.getWidth(), 1) + GetStringWidth(graph, UpdateTXT) / 2,
+        img.getHeight() - GetPerc(img.getHeight(), 6) - GetStringWidth(graph, UpdateTXT) / 2);
+// #endregion
+// #region New Features Title
+    p1.setColor(new Color(0, 0, 0));
+    p1.setFont(new Font("Consolas", Font.PLAIN, GetPerc(img.getWidth(), 5)));
+    graph.drawString("New Features",
+        (img.getWidth() / 2) - (GetStringWidth(graph, "New Features") / 2),
+        GetPerc(img.getHeight(), 18));
+// under-line new features title
+    p1.setColor(new Color(0, 0, 0));
+    p1.setStroke(new BasicStroke(10));
+    graph.drawLine(
+        GetPerc(img.getWidth(), 8),
+        GetPerc(img.getHeight(), 20),
+        img.getWidth() - GetPerc(img.getWidth(), 8),
+        GetPerc(img.getHeight(), 20));
+// #endregion
+// #region Features Lister
+    p1.setFont(new Font("Lucida Console", Font.PLAIN, GetPerc(img.getWidth(), 3)));
+    int topDifference = GetPerc(img.getHeight(), 25);
+    for (String features : newFeatures) {
+        p1.setColor(new Color(103, 84, 255));
+        
+        graph.drawOval(
+            GetPerc(img.getWidth(), 7),
+            topDifference - (GetPerc(img.getWidth(), 3) / 2),50,50);
+        
+        p1.setColor(new Color(0, 0, 0));
+        graph.drawString(features,
+            GetPerc(img.getWidth(), 10),
+            topDifference);
+        topDifference += GetPerc(GetPerc(img.getWidth(), 3), 120);
+    }
+// #endregion  
+        // Saving File System
+        File outptFile=new File(imgTitle.replace(" ", "")+".png");
+            ImageIO.write(img, "png", outptFile);
+            System.out.println("Image Saved");
+        // =========
     } catch (Exception e) {
       System.out.println(e);
     }
   }
   
-  
-  
   public static int GetPerc(int n1, int perc) {
         System.out.println("Percent :" + n1 + "x" + perc + "/100 =" + (n1 * perc) / 100);
         return (n1 * perc) / 100;
     }
-  
+  public static int GetStringWidth(Graphics2D graph, String str) {
+        return graph.getFontMetrics().stringWidth(str);
+    }
 }
