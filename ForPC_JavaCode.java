@@ -1,4 +1,3 @@
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.BasicStroke;
@@ -13,15 +12,16 @@ public class App {
         System.out.println("App Running...");
 
         CreateImage(
-                new Color(129, 123, 173),
-                new Color(45, 45, 45),
-                "Content Creater",
-                "Startup : 01",
+                Color.decode("#156b5f"),    //default : 129, 123, 173
+                Color.decode("#083831"),    //default : 45, 45, 45
+                "Content Image Creater",
+                "Startup Update",
                 new String[] {
-                        "Version updated to 0.8",
-                        "Added to our GitHub Page",
-                        "Created Next steps about this application",
-                        "Started to remaking app for Mobile devices",
+                        "Updated Color syntax",
+                        "Started to recrate for mobile",
+                        "[About Other Apps]",
+                        "> Idle Game : Still Developing ...",
+                        "Setted up next steps and plan new features",
                 });
     }
 
@@ -37,7 +37,7 @@ public class App {
             for (int i = 0; i < img.getWidth(); i++) {
                 graph.drawLine(img.getWidth() - i, i, img.getWidth(), i);
             }
-
+            
             // Light Purple Top Left - default : (129, 123, 173)
             graph.setColor(TopLeftColor);
 
@@ -97,7 +97,7 @@ public class App {
             graph.setFont(new Font("Lucida Console", Font.PLAIN, GetPerc(img.getWidth(), 3)));
             int topDifference = GetPerc(img.getHeight(), 25);
             for (String features : newFeatures) {
-                graph.setColor(new Color(103, 84, 255));
+                graph.setColor(TopLeftColor); // default : new Color(103, 84, 255)
                 graph.drawOval(
                         GetPerc(img.getWidth(), 7),
                         topDifference - (GetPerc(img.getWidth(), 3) / 2),
